@@ -104,7 +104,7 @@ I attempted to mount a Windows administrative share (`C$`) using the **Jaime** a
 The mount attempt for **Jaime** failed with a **Permission Denied** message and the mount attempt for **Administrator** succeeded.
 
 #### **Step 8: Monitor Security Alerts for Mount Attempts**
-I returned the Kali to Wazuh, refreshed the security events, and searched for the rule IDs:
+I returned to Wazuh, refreshed the security events, and searched for the rule IDs:
 - **Rule ID 60122** for failed login attempts.
 
 <img src="https://github.com/Hashdan-M/Incident-Response-Detection-with-Wazuh/blob/ac087b0b92e75a2e7379225ac7514950f031e46a/Incident%20Response/13.PNG"/></a>
@@ -120,7 +120,7 @@ The alerts provided detailed information on each attempt.
 ### 5. **Simulating Anti-Forensics Activity: Log Deletion**
 
 #### **Step 9: Access the DC10 PC**
-To simulate anti-forensics activity, I cleared the **Windows Security log** using the **Event Viewer**.
+Switch to the DC10 virtual machine. To simulate anti-forensics activity, I cleared the **Windows Security log** using the **Event Viewer**.
 
 - Open **Event Viewer**, navigate to **Windows Logs > Security**, and select **Clear Log**.
 
