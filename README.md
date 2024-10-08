@@ -1,3 +1,5 @@
+<img src="https://github.com/Hashdan-M/Incident-Response-Detection-with-Wazuh/blob/2c7f121347df99bd6fc47a5fe53f3f71089dbd77/Incident%20Response/wazuh-logo.jpg" width=50% height=50%>
+
 # Incident Response Detection with Wazuh
 
 ## Overview
@@ -26,48 +28,32 @@ The goal of this project was to:
 ### 1. **Preparation and Setup**
 
 #### **Step 1: Access Kali Linux (Security Workstation)**
-I started by logging into **Kali Linux** as the root user using the password `Pa$$w0rd`. This machine was used to perform various attack simulations. 
+I started by logging into **Kali Linux** as the root user. This machine was used to perform various attack simulations. 
 
-```bash
-ssh root@kali
-Password: Pa$$w0rd
-```
+<img src="https://github.com/Hashdan-M/Incident-Response-Detection-with-Wazuh/blob/2c7f121347df99bd6fc47a5fe53f3f71089dbd77/Incident%20Response/1.PNG" width=50% height=50%>
 
 #### **Step 2: Create a Password List for Brute-Force Attack**
-I used a popular list of commonly used passwords, `/usr/share/seclists/Passwords/500-worst-passwords.txt`, and modified it to include the password `Pa$$w0rd` at the 57th line. This was done using the `sed` command to inject the password into the file, creating a custom password list (`passlist.txt`) for the brute-force attack.
+I used a popular list of commonly used passwords, `/usr/share/seclists/Passwords/500-worst-passwords.txt`, and modified it to include the password `Pa$$w0rd` at the 57th line. This was done using the `sed` command to inject the password into the file, creating a custom password list (`passlist.txt`) for the brute-force attack. I then entered `ls -l` to confirm the `passlist.txt` is present in the current directory (which should be `/root`). Finally, enter `grep -n 'Pa$$w0rd' passlist.txt`. The output should confirm that `Pa$$w0rd` was added at line 57.
 
-```bash
-sed '57i\Pa$$w0rd' /usr/share/seclists/Passwords/500-worst-passwords.txt > passlist.txt
-```
-
-- **Verify the modification:**
-
-```bash
-ls -l passlist.txt
-grep -n 'Pa$$w0rd' passlist.txt
-```
-
-The output should confirm that `Pa$$w0rd` was added at line 57.
+<img src="https://github.com/Hashdan-M/Incident-Response-Detection-with-Wazuh/blob/2c7f121347df99bd6fc47a5fe53f3f71089dbd77/Incident%20Response/2.PNG"/></a>
 
 ---
 
 ### 2. **Accessing Wazuh Platform and Monitoring Security Events**
 
 #### **Step 3: Log into Wazuh Web Interface**
-Next, I accessed the Wazuh interface from **Kali Linux** via the browser at `10.1.16.242` and logged in as `admin` using the password `Pa??w0rd`.
+Next, I accessed the Wazuh interface from **Kali Linux** via the browser at `10.1.16.242` and logged in as `admin`.
 
-```text
-https://10.1.16.242
-Username: admin
-Password: Pa??w0rd
-```
-
-If there were any security warning prompts, I accepted the risks to continue.
+<img src="https://github.com/Hashdan-M/Incident-Response-Detection-with-Wazuh/blob/2c7f121347df99bd6fc47a5fe53f3f71089dbd77/Incident%20Response/3.PNG" width=50% height=50%>
 
 #### **Step 4: View Security Events for DC10**
-Once logged into Wazuh, I navigated to the **Security Events** tab and filtered the alerts to display only the events from **DC10** (Windows Server 2019).
+Once logged into Wazuh, I navigated to the **Security Events** tab
 
-- To narrow down the events to only those related to DC10, I selected **Explore agent** and chose **DC10** from the dropdown.
+<img src="https://github.com/Hashdan-M/Incident-Response-Detection-with-Wazuh/blob/2c7f121347df99bd6fc47a5fe53f3f71089dbd77/Incident%20Response/4.PNG"/></a>
+
+I filtered the alerts to display only the events from **DC10** (Windows Server 2019). To narrow down the events to only those related to DC10, I selected **Explore agent** and chose **DC10** from the dropdown.
+
+<img src="https://github.com/Hashdan-M/Incident-Response-Detection-with-Wazuh/blob/2c7f121347df99bd6fc47a5fe53f3f71089dbd77/Incident%20Response/5.png"/></a>
 
 ---
 
