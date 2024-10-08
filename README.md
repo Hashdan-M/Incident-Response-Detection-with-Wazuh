@@ -51,9 +51,13 @@ Once logged into Wazuh, I navigated to the **Security Events** tab
 
 <img src="https://github.com/Hashdan-M/Incident-Response-Detection-with-Wazuh/blob/2c7f121347df99bd6fc47a5fe53f3f71089dbd77/Incident%20Response/4.PNG"/></a>
 
-I filtered the alerts to display only the events from **DC10** (Windows Server 2019). To narrow down the events to only those related to DC10, I selected **Explore agent** and chose **DC10** from the dropdown.
+I filtered the alerts to display only the events from **DC10** (Windows Server 2019). To narrow down the events to only those related to DC10, I selected **Explore agent** 
 
 <img src="https://github.com/Hashdan-M/Incident-Response-Detection-with-Wazuh/blob/2c7f121347df99bd6fc47a5fe53f3f71089dbd77/Incident%20Response/5.png"/></a>
+
+On the **Explore agent** pop-up window, select **DC10** from the dropdown.
+
+<img src="https://github.com/Hashdan-M/Incident-Response-Detection-with-Wazuh/blob/25cca2ba539459f190f658a3ae2c4df348f46eae/Incident%20Response/6.png"/></a>
 
 ---
 
@@ -73,10 +77,20 @@ hydra -t 1 -V -f -l administrator -P passlist.txt rdp://10.1.16.1
 
 The output showed 57 attempts, with the 57th attempt successfully guessing the password.
 
+<img src="https://github.com/Hashdan-M/Incident-Response-Detection-with-Wazuh/blob/25cca2ba539459f190f658a3ae2c4df348f46eae/Incident%20Response/8.PNG"/></a>
+
 #### **Step 6: View the Wazuh Alert for Password Guessing**
 After running the Hydra attack, I returned to the Wazuh web interface and refreshed the security events page. I searched for **Rule ID 92652**, which is associated with successful password discovery.
 
-- This event showed up as a **High severity alert** related to the successful use of a weak password.
+<img src="https://github.com/Hashdan-M/Incident-Response-Detection-with-Wazuh/blob/25cca2ba539459f190f658a3ae2c4df348f46eae/Incident%20Response/9.PNG"/></a>
+
+Select **T1550.002** from the first **Security Alerts** row of an entry with Rule **ID 92652**. A Details page about the **Pass the Hash** technique is displayed.
+
+
+<img src="https://github.com/Hashdan-M/Incident-Response-Detection-with-Wazuh/blob/25cca2ba539459f190f658a3ae2c4df348f46eae/Incident%20Response/10.PNG"/></a>
+
+The technique associated with this event is inaccurate. While it is true that a pass the hash attack (PtH) could have been the cause of the event recorded into the Windows security log, we know that is not the attack we performed. We ran a password-guessing attack using a dictionary list, which is not the same attack concept as PtH. A PtH attack requires the theft of an access token from a valid client, which is then used from a different system to fool the authentication service.
+The Technique(s), Tactic(s), Description, and Level columns of the wazuh **Security Alerts** are not always accurate. We would need to look at the raw data from the logs to confirm what actually took place. We can create our own rules to process log entries differently than the default rules. This lab uses only the default wazuh rule set.
 
 ---
 
@@ -85,11 +99,9 @@ After running the Hydra attack, I returned to the Wazuh web interface and refres
 #### **Step 7: Mount Windows Administrative Share**
 I attempted to mount a Windows administrative share (`C$`) using the **Jaime** and **Administrator** accounts.
 
-```bash
-mkdir /mnt/dc10-c
-mount -o username=jaime //10.1.16.1/c$ /mnt/dc10-c   # Failed attempt
-mount -o username=administrator //10.1.16.1/c$ /mnt/dc10-c  # Successful attempt
-```
+<img src="https://github.com/Hashdan-M/Incident-Response-Detection-with-Wazuh/blob/25cca2ba539459f190f658a3ae2c4df348f46eae/Incident%20Response/11.PNG"/></a>
+
+The mount attempt for **Jaime** will fail with a **Permission Denied** message and the mount attempt for **Administrator** will succeed.
 
 #### **Step 8: Monitor Security Alerts for Mount Attempts**
 I returned to Wazuh, refreshed the security events, and searched for the rule IDs:
