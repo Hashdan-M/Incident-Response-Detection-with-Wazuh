@@ -101,30 +101,35 @@ I attempted to mount a Windows administrative share (`C$`) using the **Jaime** a
 
 <img src="https://github.com/Hashdan-M/Incident-Response-Detection-with-Wazuh/blob/25cca2ba539459f190f658a3ae2c4df348f46eae/Incident%20Response/11.PNG"/></a>
 
-The mount attempt for **Jaime** will fail with a **Permission Denied** message and the mount attempt for **Administrator** will succeed.
+The mount attempt for **Jaime** failed with a **Permission Denied** message and the mount attempt for **Administrator** succeeded.
 
 #### **Step 8: Monitor Security Alerts for Mount Attempts**
-I returned to Wazuh, refreshed the security events, and searched for the rule IDs:
+I returned the Kali to Wazuh, refreshed the security events, and searched for the rule IDs:
 - **Rule ID 60122** for failed login attempts.
+
+<img src="https://github.com/Hashdan-M/Incident-Response-Detection-with-Wazuh/blob/ac087b0b92e75a2e7379225ac7514950f031e46a/Incident%20Response/13.PNG"/></a>
+
 - **Rule ID 60106** for successful login attempts.
 
-The alerts provided detailed information on each attempt, including the user, IP address, and method of access (e.g., RDP or file share).
+<img src="https://github.com/Hashdan-M/Incident-Response-Detection-with-Wazuh/blob/ac087b0b92e75a2e7379225ac7514950f031e46a/Incident%20Response/14.PNG"/></a>
+
+The alerts provided detailed information on each attempt.
 
 ---
 
 ### 5. **Simulating Anti-Forensics Activity: Log Deletion**
 
-#### **Step 9: Clear Windows Security Logs**
+#### **Step 9: Access the DC10 PC**
 To simulate anti-forensics activity, I cleared the **Windows Security log** using the **Event Viewer**.
 
 - Open **Event Viewer**, navigate to **Windows Logs > Security**, and select **Clear Log**.
 
-#### **Step 10: Detect Log File Deletion in Wazuh**
-I returned to Wazuh and searched for **Rule ID 63103**, which is associated with the clearing of event logs. This is a typical anti-forensics technique used by attackers to erase traces of their malicious activity.
+<img src="https://github.com/Hashdan-M/Incident-Response-Detection-with-Wazuh/blob/ac087b0b92e75a2e7379225ac7514950f031e46a/Incident%20Response/15.PNG"/></a>
 
-```text
-Search for Rule ID: 63103
-```
+#### **Step 10: Detect Log File Deletion in Wazuh**
+I returned to the Kali machine, entered Wazuh and searched for **Rule ID 63103**, which is associated with the clearing of event logs. This is a typical anti-forensics technique used by attackers to erase traces of their malicious activity.
+
+<img src="https://github.com/Hashdan-M/Incident-Response-Detection-with-Wazuh/blob/ac087b0b92e75a2e7379225ac7514950f031e46a/Incident%20Response/16.PNG"/></a>
 
 Wazuh detected this event and generated an alert indicating that a log file had been cleared, including the timestamp and affected system.
 
@@ -151,28 +156,10 @@ For each event, I reviewed the **MITRE ATT&CK** technique that was associated wi
 
 ---
 
-## Screenshots
-
-- **Wazuh Dashboard**: Screenshot of the Wazuh dashboard after login.
-- **Security Events**: Screenshots of Wazuh alerts related to password guessing and logon failures.
-- **Hydra Attack**: Screenshot of the Hydra tool running and successfully guessing the password.
-- **Log Deletion Detection**: Screenshot showing Wazuh alert for log file deletion.
-
----
-
-This project not only demonstrates how to configure Wazuh to detect suspicious activities but also highlights the real-world relevance of tools like Hydra and Wazuh for threat detection and incident response.
+### Conclusion
+By combining penetration testing with real-time monitoring using Wazuh, I was able to simulate, detect, and respond to various types of attacks and anti-forensic activity. This experience has provided valuable insights into security operations and incident response capabilities.  This project not only demonstrates how to configure Wazuh to detect suspicious activities but also highlights the real-world relevance of tools like Hydra and Wazuh for threat detection and incident response.
 
 ### Additional Resources
 - [Wazuh Official Documentation](https://documentation.wazuh.com/)
 - [MITRE ATT&CK Framework](https://attack.mitre.org/)
 
----
-
-### Conclusion
-By combining penetration testing with real-time monitoring using Wazuh, I was able to simulate, detect, and respond to various types of attacks and anti-forensic activity. This experience has provided valuable insights into security operations and incident response capabilities.
-
----
-
-Feel free to attach screenshots of each step, particularly those showing the W
-
-azuh web interface, alert logs, and the output from Hydra, to give your project a clear visual structure.
