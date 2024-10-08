@@ -1,4 +1,4 @@
-# Incident Response: Detection with Wazuh
+# Incident Response Detection with Wazuh
 
 ## Overview
 
